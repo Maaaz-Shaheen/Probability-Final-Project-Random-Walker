@@ -21,7 +21,7 @@ export class Task8 extends Component {
 				this.setState(() => ({
 					data: e.data,
 				}));
-				console.log(e.data);
+				// console.log(e.data);
 			}
 		};
 	};
@@ -132,8 +132,6 @@ export class Task8 extends Component {
 		);
 
 		if (distance <= 1) {
-			console.log(this.pointA, this.pointB);
-
 			p5.stroke(0, 0, 255);
 			p5.strokeWeight(2 * this.toScale);
 			p5.point(this.pointA.x, this.pointA.y);
@@ -147,7 +145,12 @@ export class Task8 extends Component {
 	render() {
 		return (
 			<div>
-				<h1>No of simulations done: {this.state.data[0]}</h1>
+				<h1>No of simulations done: {this.state.data[0]} / 5000</h1>
+				{this.state.data[1] && (
+					<div>
+						<h2>Total simulations which met: {this.state.data[1].length} </h2>
+					</div>
+				)}
 				<button onClick={this.toggleStart}>Run Sim</button>
 				{this.state.start && (
 					<div className="canvas-container">

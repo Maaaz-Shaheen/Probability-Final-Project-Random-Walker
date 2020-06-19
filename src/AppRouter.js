@@ -12,7 +12,7 @@ import { Task9 } from "./Task9";
 
 const Header = () => (
 	<header>
-		<h1>Portfolio</h1>
+		<h1>Random Walker Project - ms05176</h1>
 		<NavLink to="/">Task 1</NavLink>
 		<br />
 		<NavLink to="/task2">Task 2</NavLink>
