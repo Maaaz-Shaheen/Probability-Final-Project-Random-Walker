@@ -4,7 +4,7 @@ import Chance from "chance";
 const chance = new Chance();
 const probabilityArray = [0.5, 0, 0.5];
 const stepSizeArray = [-1, 0, 1];
-let simulations = 100;
+let simulations = 1000;
 const distance = 5;
 const safeDistance = 2000;
 

@@ -12,6 +12,8 @@ export class Task1 extends Component {
 	state = {
 		pathToRender: [],
 		finalPlaceFrequencies: [],
+		expectedAbsoluteValue: 0,
+		average: 0,
 	};
 
 	runModel = () => {
@@ -44,6 +46,19 @@ export class Task1 extends Component {
 			finalPlaces.push(newPath[newPath.length - 1].x);
 		}
 
+		let sum = 0;
+		let avg = 0;
+		finalPlaces.forEach((data) => {
+			avg += data;
+			if (data < 0) {
+				data = -data;
+			}
+			sum += data;
+		});
+
+		sum = sum / finalPlaces.length;
+		avg = avg / finalPlaces.length;
+
 		const finalPlaceFrequencies = [];
 		const uniqueSet = new Set(finalPlaces);
 		const done = [];
@@ -61,11 +76,14 @@ export class Task1 extends Component {
 		this.setState(() => ({
 			pathToRender: pathToRender,
 			finalPlaceFrequencies: finalPlaceFrequencies,
+			expectedAbsoluteValue: sum,
+			avg: avg,
 		}));
 	};
 
 	render() {
-		console.log(this.state.finalPlaceFrequencies);
+		console.log(this.state.expectedAbsoluteValue);
+		console.log(this.state.avg);
 
 		return (
 			<div>
