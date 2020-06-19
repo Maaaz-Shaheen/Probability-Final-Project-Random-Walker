@@ -2,18 +2,28 @@ import React, { Component } from "react";
 import Sketch from "react-p5";
 import Chance from "chance";
 import { Random } from "random-js";
-
 import worker from "workerize-loader!./worker"; // eslint-disable-line import/no-webpack-loader-syntax
-
-const instance = new worker();
-const data = [];
-instance.addEventListener("message", (message) => {
-	console.log(message.data);
-});
 
 export class Task8 extends Component {
 	state = {
 		start: false,
+		data: [0],
+	};
+	instance = new worker();
+
+	componentWillUnmount = () => {
+		this.instance.terminate();
+	};
+
+	startWorker = () => {
+		this.instance.onmessage = (e) => {
+			if (!isNaN(e.data[0])) {
+				this.setState(() => ({
+					data: e.data,
+				}));
+				console.log(e.data);
+			}
+		};
 	};
 
 	chance = new Chance();
@@ -38,12 +48,15 @@ export class Task8 extends Component {
 	pointB = this.startPointB;
 
 	runSim = () => {
-		const x = instance.runModel(this.startPointA, this.startPointB, this.width, 10);
+		this.startWorker();
+		this.instance.runModel(this.startPointA, this.startPointB, this.width, 5000);
 		// const oneResult = this.runModel();
 	};
 
 	toggleStart = () => {
-		this.runSim();
+		if (!this.state.start) {
+			this.runSim();
+		}
 		this.setState((prevState) => ({
 			start: !prevState.start,
 		}));
@@ -83,12 +96,12 @@ export class Task8 extends Component {
 		let nextBY = this.pointB.y + nextStepSizeB * Math.sin(nextAngleB);
 
 		const distanceOfCurrentAFromOrigin = Math.sqrt(
-			Math.pow(this.pointA.x, 2) + Math.pow(this.pointB.x, 2)
+			Math.pow(this.pointA.x, 2) + Math.pow(this.pointA.y, 2)
 		);
 		const distanceOfCurrentBFromOrigin = Math.sqrt(
-			Math.pow(this.pointB.x, 2) + Math.pow(this.pointB.x, 2)
+			Math.pow(this.pointB.x, 2) + Math.pow(this.pointB.y, 2)
 		);
-		const distanceOfNextAFromOrigin = Math.sqrt(Math.pow(nextBX, 2) + Math.pow(nextBY, 2));
+		const distanceOfNextAFromOrigin = Math.sqrt(Math.pow(nextAX, 2) + Math.pow(nextAY, 2));
 		const distanceOfNextBFromOrigin = Math.sqrt(Math.pow(nextBX, 2) + Math.pow(nextBY, 2));
 
 		if (distanceOfNextAFromOrigin <= this.width / 2) {
@@ -129,12 +142,12 @@ export class Task8 extends Component {
 		}
 
 		// NOTE: Do not use setState in draw function or in functions that is executed in draw function... pls use normal variables or class properties for this purposes
-		// this.x++;
 	};
 
 	render() {
 		return (
 			<div>
+				<h1>No of simulations done: {this.state.data[0]}</h1>
 				<button onClick={this.toggleStart}>Run Sim</button>
 				{this.state.start && (
 					<div className="canvas-container">

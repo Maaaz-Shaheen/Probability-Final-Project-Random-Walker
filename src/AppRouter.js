@@ -8,6 +8,7 @@ import { Task4 } from "./Task4";
 import { Task5 } from "./Task5";
 import { Task7 } from "./Task7";
 import { Task8 } from "./Task8";
+import { Task9 } from "./Task9";
 
 const Header = () => (
 	<header>
@@ -30,6 +31,8 @@ const Header = () => (
 		<br />
 
 		<NavLink to="/task8">Task 8</NavLink>
+		<br />
+		<NavLink to="/task9">Task 9</NavLink>
 	</header>
 );
 
@@ -45,6 +48,7 @@ const AppRouter = () => (
 				<Route path="/task5" component={Task5} exact={true} />
 				<Route path="/task7" component={Task7} exact={true} />
 				<Route path="/task8" component={Task8} exact={true} />
+				<Route path="/task9" component={Task9} exact={true} />
 
 				<Route component={NotFoundPage} />
 			</Switch>
